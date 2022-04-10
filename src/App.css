@@ -1,5 +1,6 @@
 body {
   background-color: #6C757D;
+  overflow-x: hidden;
 }
 
 /* body div {
@@ -22,4 +23,94 @@ body {
 .TextFilterTopBar .searchInput {
   box-shadow: none;
   border: 0;
+}
+
+/* AddNotesOffCanvasLeftMenu */
+.AddNotesOffCanvasTopMenu {
+  background-color: #212529;
+}
+
+/* SocialMediaBar */
+.icon-bar {
+  position: fixed;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.icon-bar a {
+  display: block;
+  text-align: center;
+  padding: 3vh;
+  transition: all 0.3s ease;
+  color: white;
+  font-size: 4vh;
+}
+
+.icon-bar a:hover {
+  background-color: #000;
+}
+
+.facebook {
+  background: #3B5998;
+  color: white;
+}
+
+.twitter {
+  background: #55ACEE;
+  color: white;
+}
+
+.google {
+  background: #dd4b39;
+  color: white;
+}
+
+.linkedin {
+  background: #007bb5;
+  color: white;
+}
+
+.youtube {
+  background: #bb0000;
+  color: white;
+}
+
+/* ColorFilterHovarableRightSideNav */
+
+#mySidenav a {
+  position: absolute;
+  right: -80px;
+  transition: 0.3s;
+  padding: 15px;
+  width: 100px;
+  text-decoration: none;
+  font-size: 20px;
+  color: white;
+  border-radius: 0 5px 5px 0;
+}
+
+#mySidenav a:hover {
+  right: 0;
+}
+
+#about {
+  top: 20px;
+  background-color: #04AA6D;
+}
+
+#blog {
+  top: 80px;
+  background-color: #2196F3;
+}
+
+#projects {
+  top: 140px;
+  background-color: #f44336;
+}
+
+#contact {
+  top: 200px;
+  background-color: #555
 }

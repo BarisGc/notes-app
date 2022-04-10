@@ -1,11 +1,11 @@
 import './App.css';
 import { Container } from 'react-bootstrap'
-import FirstRow from './components/firstRow/Index'
-import SecondRow from './components/secondRow/Index'
+import FirstRow from './components/firstRow/FirstRowIndex'
+import SecondRow from './components/secondRow/SecondRowIndex'
 
 function App() {
   return (
-    <Container fluid className='mt-0' >
+    <Container fluid >
       <FirstRow />
       <SecondRow />
     </Container>
