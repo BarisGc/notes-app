@@ -1,10 +1,17 @@
 import { useState, } from 'react'
 import { useSelector, useDispatch, } from 'react-redux';
-import { addNewNote } from '../../../redux/notesSlice'
 import { InputGroup, FormControl, Offcanvas, Button, Row, Col, Form, ButtonGroup, ToggleButton } from 'react-bootstrap'
+import { nanoid } from 'nanoid'
+import moment from 'moment';
+import { addNewNote, selectFilterOption } from '../../../redux/notesSlice'
 
 function TextFilterTopBar() {
+    //General
     const dispatch = useDispatch();
+    let currentTime = moment().format('YYYYMMDDHHmmss');
+
+    // Selectors
+    const filterTypes = useSelector((state) => state.notes.filterTypes);
 
     //State
     const initialValues = {
@@ -22,35 +29,64 @@ function TextFilterTopBar() {
     const handleClose = () => {
         setShow(false);
         setRadioValue(null);
+        setValues(initialValues)
     }
     const toggleShow = () => setShow((s) => !s);
 
     // offCanvas-Checkbox Buttons
     const filterCategories = ["routine", "projects", "urgent", "ideas"]
     const radios = [
-        { name: 'Radio', value: filterCategories[0] },
-        { name: 'Radio', value: filterCategories[1] },
-        { name: 'Radio', value: filterCategories[2] },
-        { name: 'Radio', value: filterCategories[3] },
+        { name: 'category', value: filterCategories[0] },
+        { name: 'category', value: filterCategories[1] },
+        { name: 'category', value: filterCategories[2] },
+        { name: 'category', value: filterCategories[3] },
     ];
 
     // save note
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        if (name === 'radio') {
+        if (name === 'category') {
             setRadioValue(e.target.value)
         }
         setValues({
             ...values,
             [name]: value,
         });
-    };
-    console.log("values", values)
-    // const saveNote = () => {
-    //     dispatch(addNewNote(values))
-    //     setShow(false);
-    // }
 
+    };
+
+    const saveNote = () => {
+        handleClearFilters()
+        dispatch(addNewNote(
+            {
+                ...values,
+                id: nanoid(),
+                addedAt: currentTime
+
+            }))
+        setShow(false);
+        setRadioValue(null);
+        setValues(initialValues)
+
+    }
+    console.log("values", values)
+
+    // Text Search & Filter
+    const handleTextSearch = (e) => {
+        dispatch(selectFilterOption(
+            {
+                ...filterTypes,
+                searchText: e.target.value
+            }))
+    }
+    // Reset Filters
+    const handleClearFilters = (e) => {
+        dispatch(selectFilterOption(
+            {
+                searchText: '',
+                colorFilter: '',
+            }))
+    }
 
 
     return (
@@ -61,15 +97,17 @@ function TextFilterTopBar() {
                 </Offcanvas.Header>
                 <Offcanvas.Body className='TextFilterTopBarBody'>
                     <Form>
-                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                        <Form.Group className="mb-3" >
                             <Form.Label>Title</Form.Label>
-                            <Form.Control size="sm" type="text" placeholder="Enter Your Title Here..." />
+                            <Form.Control size="sm" type="text" placeholder="Enter Your Title Here..."
+                                name='title' onChange={handleInputChange} />
                         </Form.Group>
-                        <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                        <Form.Group className="mb-3" >
                             <Form.Label>Content</Form.Label>
-                            <Form.Control size="sm" as="textarea" rows={5} placeholder='Enter Your Note Here...' />
+                            <Form.Control size="sm" as="textarea" rows={5} placeholder='Enter Your Note Here...'
+                                name='content' onChange={handleInputChange} />
                         </Form.Group>
-                        <Form.Group className="mb-3 col-2" controlId="exampleForm.ControlColorarea1">
+                        <Form.Group className="mb-3 col-3">
                             <Form.Label htmlFor="exampleColorInput">Color picker</Form.Label>
                             <InputGroup className="mb-3 ">
                                 <ButtonGroup className=''>
@@ -79,12 +117,13 @@ function TextFilterTopBar() {
                                             key={idx}
                                             id={`radio-${idx}`}
                                             type="radio"
-                                            name="radio"
                                             value={radio.value}
                                             checked={radioValue === radio.value}
+                                            // radio value state kaldırmaya çalış olmazsa böyle kullan
+                                            name="category"
                                             onChange={handleInputChange}
                                         >
-                                            {radioValue === radio.value ? <i className="fa-solid fa-check"></i> : <i></i>}
+                                            {radioValue === radio.value ? <i className="fa-solid fa-check"></i> : <i>{radio.value}</i>}
                                         </ToggleButton>
                                     ))}
                                 </ButtonGroup>
@@ -92,7 +131,7 @@ function TextFilterTopBar() {
                         </Form.Group>
                         <Form.Group>
                             <Button variant="secondary" id="button-addon1"
-                            // onClick={() => saveNote()}
+                                onClick={() => saveNote()}
                             >
                                 Save Note
                             </Button>
@@ -100,7 +139,7 @@ function TextFilterTopBar() {
                     </Form>
                 </Offcanvas.Body>
             </Offcanvas>
-            <Col md={{ span: 4, offset: 3 }} >
+            <Col md={{ span: 6, offset: 3 }} >
                 <InputGroup className=" ">
                     <InputGroup.Text className='searchIcon pb-2' id="basic-addon1"><i className="fa-solid fa-magnifying-glass"></i></InputGroup.Text>
                     <FormControl
@@ -108,16 +147,16 @@ function TextFilterTopBar() {
                         aria-label="SearchNotes"
                         aria-describedby="SearchNotesInput"
                         className='searchInput pb-2'
-                    />
-                </InputGroup>
-            </Col>
-            <Col md={{ span: 3, offset: 0 }} >
-                <InputGroup className="">
-                    <Button variant="danger" id="button-addon1" onClick={toggleShow} className='addButton'>
+                        onChange={handleTextSearch} />
+                    <Button variant="success" onClick={toggleShow} className='addButton'>
                         Add New Note
+                    </Button>
+                    <Button variant="danger" onClick={handleClearFilters} className='clearButton'>
+                        Clear All Filters
                     </Button>
                 </InputGroup>
             </Col>
+
         </Row>
     )
 }

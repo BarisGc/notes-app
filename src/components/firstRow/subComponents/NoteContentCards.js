@@ -1,16 +1,32 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useSelector, useDispatch, } from 'react-redux';
+import moment from 'moment';
 import { Row, Col, Card } from 'react-bootstrap'
 
 function NoteContentCards() {
     const dispatch = useDispatch();
 
-    //states
+    //states & selectors
     const notes = useSelector((state) => state.notes.items);
+    const filterTypes = useSelector((state) => state.notes.filterTypes);
+    console.log("filterTypes", filterTypes)
+    const filteredNotes = () => {
+        if (filterTypes.searchText === '' && filterTypes.colorFilter === '') {
+            return notes
+        } else if (filterTypes.searchText !== '' && filterTypes.colorFilter === '') {
+            return notes.filter((note) =>
+                (note.content.toLowerCase().includes(filterTypes.searchText)) || (note.title.toLowerCase().includes(filterTypes.searchText)))
+        } else if (filterTypes.searchText === '' && filterTypes.colorFilter !== '') {
+            return notes.filter((note) => (note.category === filterTypes.colorFilter))
+        } else if (filterTypes.searchText !== '' && filterTypes.colorFilter !== '') {
+            return notes.filter((note) =>
+                ((note.content.toLowerCase().includes(filterTypes.searchText)) || (note.title.toLowerCase().includes(filterTypes.searchText))) && (note.category === filterTypes.colorFilter))
+        }
+    }
 
     return (
         <Row xs={1} md={5} className="g-2 mt-1 ">
-            {notes.map((note) => (
+            {filteredNotes().map((note) => (
                 <Col key={note.id}>
                     <Card className={`noteContentCardsContainer ${note.category}`}>
                         <Card.Header className='noteContentCardsHeader'>{note.title}</Card.Header>
@@ -20,7 +36,11 @@ function NoteContentCards() {
                             </Card.Text>
                         </Card.Body>
                         <Card.Footer>
-                            <small className="text-muted noteContentCardsFooter">{note.addedAt}</small>
+                            {/* // YYYYMMDDHHmmss moment("12-25-1995", "MM-DD-YYYY"); */}
+                            <small className="text-muted noteContentCardsFooter">
+                                {moment(note.addedAt, "YYYYMMDDHHmmss")
+                                    .format('YYYY-MM-DD HH:mm:ss')
+                                }</small>
                         </Card.Footer>
                     </Card>
                 </Col>

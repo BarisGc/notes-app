@@ -15,7 +15,7 @@ body {
   color: #6C757D
 }
 
-.TextFilterTopBar .searchInput, .TextFilterTopBar .addButton, .TextFilterTopBar {
+.TextFilterTopBar .searchInput, .TextFilterTopBar .addButton, .TextFilterTopBar .clearButton {
   box-shadow: none;
   border: 0;
 }
@@ -26,7 +26,6 @@ body {
 
 .offCanvasColorPickerroutine {
   background-color: #F0F1F2 !important;
-
 }
 
 .offCanvasColorPickerprojects {

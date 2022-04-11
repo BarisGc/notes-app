@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import moment from 'moment';
+import { nanoid } from 'nanoid'
+
 // import { getTodosAsync, addTodosAsync, toggleTodosAsync, removeTodosAsync } from "./services";
 
 // export const getTodosAsync = createAsyncThunk('todos/getTodosAsync', async () => {
@@ -8,16 +9,12 @@ import moment from 'moment';
 // })
 //bunun yerine axios tercih ettik
 
-var now = moment();
-let currentTime = moment().format('YYYY-MM-DD-HH-MM');
-console.log("now", now)
-console.log("currentTime", currentTime)
 export const notesSlice = createSlice({
     name: 'notes',
     initialState: {
         items: [
             {
-                id: 1,
+                id: nanoid(),
                 title: "white note",
                 content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
                 category: "routine",
@@ -25,31 +22,31 @@ export const notesSlice = createSlice({
                 addedAt: "20220401170401", // YYYYMMDDHHmmss
             },
             {
-                id: 2,
+                id: nanoid(),
                 title: "aqua note",
                 content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
                 category: "projects",
                 isOpen: false,
-                addedAt: "20220402170402",
+                addedAt: "20220401170402",
             },
             {
-                id: 3,
+                id: nanoid(),
                 title: "pink note",
                 content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
                 category: "urgent",
                 isOpen: false,
-                addedAt: "20220403170403",
+                addedAt: "20220401170403",
             },
             {
-                id: 4,
+                id: nanoid(),
                 title: "yellow note",
                 content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
                 category: "ideas",
                 isOpen: false,
-                addedAt: "20220404170404",
+                addedAt: "20220401170404",
             },
             {
-                id: 5,
+                id: nanoid(),
                 title: "white note",
                 content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
                 category: "routine",
@@ -57,72 +54,59 @@ export const notesSlice = createSlice({
                 addedAt: "20220401170405",
             },
             {
-                id: 6,
+                id: nanoid(),
                 title: "aqua note",
                 content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
                 category: "projects",
                 isOpen: false,
-                addedAt: "20220402170406",
+                addedAt: "20220401170406",
             },
             {
-                id: 7,
+                id: nanoid(),
                 title: "pink note",
                 content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
                 category: "urgent",
                 isOpen: false,
-                addedAt: "20220403170407",
+                addedAt: "20220401170407",
             },
             {
-                id: 8,
+                id: nanoid(),
                 title: "yellow note",
                 content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
                 category: "ideas",
                 isOpen: false,
-                addedAt: "20220404170408",
+                addedAt: "20220401170408",
             },
             {
-                id: 9,
+                id: nanoid(),
                 title: "yellow note",
                 content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
                 category: "ideas",
                 isOpen: false,
-                addedAt: "20220404170409",
+                addedAt: "20220401170409",
             },
             {
-                id: 10,
+                id: nanoid(),
                 title: "yellow note",
                 content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
                 category: "ideas",
                 isOpen: false,
-                addedAt: "20220404170410",
+                addedAt: "20220401170411",
             },
             {
-                id: 11,
+                id: nanoid(),
                 title: "yellow note",
                 content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
                 category: "ideas",
                 isOpen: false,
-                addedAt: "20220404170411",
+                addedAt: "20220401170412",
             },
         ],
-        // isLoading: false,
-        // error: null,
-        // activeFilter: localStorage.getItem('activeFilter'),
-        // // addNewTodoIsLoading: false,
-        // // addNewTodoError: null,
-        // addNewTodo: {
-        //     isLoading: false,
-        //     error: false,
-        // },
+        filterTypes: {
+            searchText: '',
+            colorFilter: '',
+        },
     },
-    // {
-    //     id: 1,
-    //     title: "white note",
-    //     content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
-    //     category: "routine",
-    //     isOpen: false,
-    //     addedAt: "2022040117040159", // YYYYMMDDHHmmss
-    // },
     reducers: {
         addNewNote: (state, action) => {
             // Add a Note
@@ -143,39 +127,9 @@ export const notesSlice = createSlice({
 
             console.log("state.items", state.items)
         },
-        // addTodo: {
-        //     reducer: (state, action) => {
-        //         state.items.push(action.payload)
-        //     },
-        //     prepare: ({ title }) => {
-        //         return {
-        //             payload: {
-        //                 id: nanoid(),
-        //                 completed: false,
-        //                 title,
-        //             }
-        //         }
-        //     },
-        // },
-        //bunu yerine backend işlemlerini tercih ettik
-        // toggle: (state, action) => {
-        //     const { id } = action.payload;
-        //     const item = state.items.find(item => item.id === id)
-        //     item.completed = !item.completed;
-        // },
-        //middleware ile hallettik
-        // destroy: (state, action) => {
-        //     const id = action.payload;
-        //     const filtered = state.items.filter((item) => item.id !== id);
-        //     state.items = filtered;
-        // },
-        // changeActiveFilter: (state, action) => {
-        //     state.activeFilter = action.payload
-        // },
-        // clearCompleted: (state) => {
-        //     const filtered = state.items.filter((item) => item.completed === false);
-        //     state.items = filtered;
-        // },
+        selectFilterOption: (state, action) => {
+            state.filterTypes = action.payload;
+        },
     },
     extraReducers: {
         // get todos
@@ -231,5 +185,5 @@ export const notesSlice = createSlice({
 //     return state.todos.items.filter((todo) => state.todos.activeFilter === 'active' ? todo.completed === false : todo.completed === true)
 // }
 
-export const { addNewNote } = notesSlice.actions;
+export const { addNewNote, selectFilterOption } = notesSlice.actions;
 export default notesSlice.reducer;
