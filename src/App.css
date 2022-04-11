@@ -1,11 +1,6 @@
 body {
   background-color: #6C757D;
-  overflow-x: hidden;
 }
-
-/* body div {
-  border: 0.1px dotted black;
-} */
 
 /* TextFilterTopBar */
 .TextFilterTopBar {
@@ -20,14 +15,69 @@ body {
   color: #6C757D
 }
 
-.TextFilterTopBar .searchInput {
+.TextFilterTopBar .searchInput, .TextFilterTopBar .addButton, .TextFilterTopBar {
   box-shadow: none;
   border: 0;
 }
 
-/* AddNotesOffCanvasLeftMenu */
-.AddNotesOffCanvasTopMenu {
-  background-color: #212529;
+.offcanvas-title {
+  color: red
+}
+
+.offCanvasColorPickerroutine {
+  background-color: #F0F1F2 !important;
+
+}
+
+.offCanvasColorPickerprojects {
+  background-color: #7AF7D4 !important;
+
+}
+
+.offCanvasColorPickerurgent {
+  background-color: #FF9DE2 !important;
+
+}
+
+.offCanvasColorPickerideas {
+  background-color: #FFE470 !important;
+
+}
+
+.offCanvasColorPickerroutine i {
+  color: #212529;
+}
+
+.offCanvasColorPickerprojects i {
+  color: #212529;
+}
+
+.offCanvasColorPickerurgent i {
+  color: #212529;
+}
+
+.offCanvasColorPickerideas i {
+  color: #212529;
+}
+
+.offCanvasColorPickerroutine.btn {
+  box-shadow: none !important;
+  border: 0 !important;
+}
+
+.offCanvasColorPickerprojects.btn {
+  box-shadow: none !important;
+  border: 0 !important;
+}
+
+.offCanvasColorPickerurgent.btn {
+  box-shadow: none !important;
+  border: 0 !important;
+}
+
+.offCanvasColorPickerideas.btn {
+  box-shadow: none !important;
+  border: 0 !important;
 }
 
 /* SocialMediaBar */
@@ -42,7 +92,7 @@ body {
 .icon-bar a {
   display: block;
   text-align: center;
-  padding: 3vh;
+  padding: 2vh;
   transition: all 0.3s ease;
   color: white;
   font-size: 4vh;
@@ -79,38 +129,77 @@ body {
 
 /* ColorFilterHovarableRightSideNav */
 
+#mySidenav {
+  position: fixed;
+}
+
 #mySidenav a {
   position: absolute;
-  right: -80px;
+  text-align: end;
+  right: -20vw;
   transition: 0.3s;
-  padding: 15px;
-  width: 100px;
+  padding: 1vw;
+  width: 15vw;
   text-decoration: none;
-  font-size: 20px;
-  color: white;
-  border-radius: 0 5px 5px 0;
+  font-size: 1.5vw;
+  color: #212529;
+  border-radius: 0 0.2vw 0.2vw 0;
+  margin: 0;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 24px;
 }
 
 #mySidenav a:hover {
-  right: 0;
+  right: -8.5vw;
+  text-align: start;
+  width: 10vw;
 }
 
-#about {
-  top: 20px;
-  background-color: #04AA6D;
-}
-
-#blog {
-  top: 80px;
-  background-color: #2196F3;
+#routine {
+  top: 120px;
+  background-color: #F0F1F2;
 }
 
 #projects {
-  top: 140px;
-  background-color: #f44336;
+  top: 180px;
+  background-color: #7AF7D4;
 }
 
-#contact {
-  top: 200px;
-  background-color: #555
+#urgent {
+  top: 240px;
+  background-color: #FF9DE2;
 }
+
+#ideas {
+  top: 300px;
+  background-color: #FFE470
+}
+
+/* noteContentCards */
+
+.noteContentCardsContainer.routine {
+  background-color: #F0F1F2;
+}
+
+.noteContentCardsContainer.projects {
+  background-color: #7AF7D4;
+}
+
+.noteContentCardsContainer.urgent {
+  background-color: #FF9DE2;
+}
+
+.noteContentCardsContainer.ideas {
+  background-color: #FFE470
+}
+
+.noteContentCardsHeader {}
+
+.noteContentCardsTitle {}
+
+.noteContentCardsText {}
+
+.noteContentCardsFooter {}
+
+/* noteContentCards & Categories*/

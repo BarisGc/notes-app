@@ -2,11 +2,11 @@ import React from 'react'
 
 function ColorFilterHovarableRightSideNav() {
     return (
-        <div id="mySidenav" class="sidenav">
-            <a href="#" id="about">About</a>
-            <a href="#" id="blog">Blog</a>
+        <div id="mySidenav" className="sidenav">
+            <a href="#" id="routine">Routine</a>
             <a href="#" id="projects">Projects</a>
-            <a href="#" id="contact">Contact</a>
+            <a href="#" id="urgent">Urgent</a>
+            <a href="#" id="ideas">Ideas</a>
         </div>
     )
 }

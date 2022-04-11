@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+import moment from 'moment';
 // import { getTodosAsync, addTodosAsync, toggleTodosAsync, removeTodosAsync } from "./services";
 
 // export const getTodosAsync = createAsyncThunk('todos/getTodosAsync', async () => {
@@ -8,38 +8,101 @@ import { createSlice } from "@reduxjs/toolkit";
 // })
 //bunun yerine axios tercih ettik
 
-
+var now = moment();
+let currentTime = moment().format('YYYY-MM-DD-HH-MM');
+console.log("now", now)
+console.log("currentTime", currentTime)
 export const notesSlice = createSlice({
     name: 'notes',
     initialState: {
         items: [
             {
+                id: 1,
                 title: "white note",
-                content: "textwall textwall textwall",
-                color: "white",
+                content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+                category: "routine",
                 isOpen: false,
-                createdAt: "2022-09-01",
+                addedAt: "20220401170401", // YYYYMMDDHHmmss
             },
             {
+                id: 2,
                 title: "aqua note",
-                content: "textwall textwall textwall",
-                color: "aqua",
+                content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+                category: "projects",
                 isOpen: false,
-                createdAt: "2022-09-02",
+                addedAt: "20220402170402",
             },
             {
+                id: 3,
                 title: "pink note",
-                content: "textwall textwall textwall",
-                color: "pink",
+                content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+                category: "urgent",
                 isOpen: false,
-                createdAt: "2022-09-03",
+                addedAt: "20220403170403",
             },
             {
+                id: 4,
                 title: "yellow note",
-                content: "textwall textwall textwall",
-                color: "yellow",
+                content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+                category: "ideas",
                 isOpen: false,
-                createdAt: "2022-09-04",
+                addedAt: "20220404170404",
+            },
+            {
+                id: 5,
+                title: "white note",
+                content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+                category: "routine",
+                isOpen: false,
+                addedAt: "20220401170405",
+            },
+            {
+                id: 6,
+                title: "aqua note",
+                content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+                category: "projects",
+                isOpen: false,
+                addedAt: "20220402170406",
+            },
+            {
+                id: 7,
+                title: "pink note",
+                content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+                category: "urgent",
+                isOpen: false,
+                addedAt: "20220403170407",
+            },
+            {
+                id: 8,
+                title: "yellow note",
+                content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+                category: "ideas",
+                isOpen: false,
+                addedAt: "20220404170408",
+            },
+            {
+                id: 9,
+                title: "yellow note",
+                content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+                category: "ideas",
+                isOpen: false,
+                addedAt: "20220404170409",
+            },
+            {
+                id: 10,
+                title: "yellow note",
+                content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+                category: "ideas",
+                isOpen: false,
+                addedAt: "20220404170410",
+            },
+            {
+                id: 11,
+                title: "yellow note",
+                content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+                category: "ideas",
+                isOpen: false,
+                addedAt: "20220404170411",
             },
         ],
         // isLoading: false,
@@ -52,7 +115,34 @@ export const notesSlice = createSlice({
         //     error: false,
         // },
     },
+    // {
+    //     id: 1,
+    //     title: "white note",
+    //     content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+    //     category: "routine",
+    //     isOpen: false,
+    //     addedAt: "2022040117040159", // YYYYMMDDHHmmss
+    // },
     reducers: {
+        addNewNote: (state, action) => {
+            // Add a Note
+            state.items.push(action.payload)
+
+            // Sort Notes Order By addedAt(Newest First)
+            let sortedNotesArr = [];
+            let noteAddedTimesArr = [];
+
+            for (let note of state.items) {
+                noteAddedTimesArr.push(note.addedAt)
+            }
+            noteAddedTimesArr.sort(function (a, b) { return b - a });
+            noteAddedTimesArr.forEach((time) => {
+                sortedNotesArr.push(state.items.find((note) => (note.addedAt === time)))
+            })
+            state.items = sortedNotesArr;
+
+            console.log("state.items", state.items)
+        },
         // addTodo: {
         //     reducer: (state, action) => {
         //         state.items.push(action.payload)
@@ -141,5 +231,5 @@ export const notesSlice = createSlice({
 //     return state.todos.items.filter((todo) => state.todos.activeFilter === 'active' ? todo.completed === false : todo.completed === true)
 // }
 
-// export const { changeActiveFilter, clearCompleted } = todosSlice.actions;
+export const { addNewNote } = notesSlice.actions;
 export default notesSlice.reducer;
