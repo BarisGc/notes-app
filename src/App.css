@@ -204,4 +204,7 @@ body {
 
 .noteContentCardsFooter {}
 
-/* noteContentCards & Categories*/
+/* noteContentCards & Edit Modal*/
+.modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.1)
+}

@@ -136,6 +136,15 @@ export const notesSlice = createSlice({
             state.items = newNotes
             console.log("action.payload", action.payload)
             console.log("state.items", state.items)
+        },
+        editNote: (state, action) => {
+            const editedNote = action.payload;
+            console.log("editedNote", editedNote)
+            state.items.forEach((objectElement, index) => {
+                if (objectElement.id === editedNote.id) {
+                    state.items[index] = editedNote
+                }
+            })
         }
     },
     extraReducers: {
@@ -192,5 +201,5 @@ export const notesSlice = createSlice({
 //     return state.todos.items.filter((todo) => state.todos.activeFilter === 'active' ? todo.completed === false : todo.completed === true)
 // }
 
-export const { addNewNote, selectFilterOption, deleteNote } = notesSlice.actions;
+export const { addNewNote, selectFilterOption, deleteNote, editNote } = notesSlice.actions;
 export default notesSlice.reducer;

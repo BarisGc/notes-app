@@ -93,7 +93,7 @@ function TextFilterTopBar() {
         <Row className='my-3 TextFilterTopBar' >
             <Offcanvas className='h-75 TextFilterTopBarContainer bg-dark text-white ' show={show} onHide={handleClose} scroll={true} backdrop={true} placement={'top'}>
                 <Offcanvas.Header closeButton className='TextFilterTopBarHeader btn-close-white me-3'>
-                    <Offcanvas.Title className='TextFilterTopBarHeaderTitle'></Offcanvas.Title>
+                    <Offcanvas.Title className='TextFilterTopBarHeaderTitle'>Add Note</Offcanvas.Title>
                 </Offcanvas.Header>
                 <Offcanvas.Body className='TextFilterTopBarBody'>
                     <Form>
