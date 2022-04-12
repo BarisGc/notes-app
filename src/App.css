@@ -88,16 +88,19 @@ body {
   transform: translateY(-50%);
 }
 
-.icon-bar a {
+.icon-bar button {
   display: block;
   text-align: center;
   padding: 2vh;
   transition: all 0.3s ease;
   color: white;
   font-size: 4vh;
+  border-width: 0 !important;
+  height: 100%;
+  width: 100%
 }
 
-.icon-bar a:hover {
+.icon-bar button:hover {
   background-color: #000;
 }
 

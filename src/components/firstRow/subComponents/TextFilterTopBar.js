@@ -148,12 +148,19 @@ function TextFilterTopBar() {
                         aria-describedby="SearchNotesInput"
                         className='searchInput pb-2'
                         onChange={handleTextSearch} />
-                    <Button variant="success" onClick={toggleShow} className='addButton'>
+                    {/* To Remove Active Button Effect, I doubled button rendering */}
+                    {!show && <Button variant="success" onClick={toggleShow} className='addButton'>
                         Add New Note
-                    </Button>
-                    <Button variant="danger" onClick={handleClearFilters} className='clearButton'>
+                    </Button>}
+                    {!show && <Button variant="danger" onClick={handleClearFilters} className='clearButton'>
                         Clear All Filters
-                    </Button>
+                    </Button>}
+                    {show && <Button variant="success" onClick={toggleShow} className='addButton'>
+                        Add New Note
+                    </Button>}
+                    {show && <Button variant="danger" onClick={handleClearFilters} className='clearButton'>
+                        Clear All Filters
+                    </Button>}
                 </InputGroup>
             </Col>
 

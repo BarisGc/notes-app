@@ -1,13 +1,14 @@
 import React from 'react'
+import { Button } from 'react-bootstrap'
 
 function SocialMediaBar() {
     return (
         <div className="icon-bar ps-0">
-            <a className="facebook" href="www.facebook.com/share" ><i className="fa-brands fa-facebook"></i></a>
-            <a className='twitter' href="www.twitter.com/share"><i className="fa-brands fa-twitter"></i></a>
-            <a className='google' href="www.google.com/share"><i className="fa-brands fa-google"></i></a>
-            <a className='linkedin' href="www.linkedin.com/share"><i className="fa-brands fa-linkedin"></i></a>
-            <a className='youtube' href="www.youtube.com/share"><i className="fa-brands fa-youtube"></i></a>
+            <button className="facebook"  ><i className="fa-brands fa-facebook"></i></button>
+            <button className='twitter' ><i className="fa-brands fa-twitter"></i></button>
+            <button className='google' ><i className="fa-brands fa-google"></i></button>
+            <button className='linkedin' ><i className="fa-brands fa-linkedin"></i></button>
+            <button className='youtube' ><i className="fa-brands fa-youtube"></i></button>
         </div>
     )
 }

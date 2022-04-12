@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch, } from 'react-redux';
 import moment from 'moment';
-import { Row, Col, Card } from 'react-bootstrap'
+import { Row, Col, Card, InputGroup, Button, ButtonGroup } from 'react-bootstrap'
+import { deleteNote } from '../../../redux/notesSlice'
 
 function NoteContentCards() {
     const dispatch = useDispatch();
@@ -24,12 +25,35 @@ function NoteContentCards() {
         }
     }
 
+    // Delete Note
+    const handleDeleteNote = (id) => {
+        console.log("deleteidclick", id)
+        dispatch(deleteNote(id))
+    }
     return (
         <Row xs={1} md={5} className="g-2 mt-1 ">
             {filteredNotes().map((note) => (
                 <Col key={note.id}>
                     <Card className={`noteContentCardsContainer ${note.category}`}>
-                        <Card.Header className='noteContentCardsHeader'>{note.title}</Card.Header>
+                        <Card.Header className='noteContentCardsHeader'>
+                            <Row >
+                                <Col md={{ span: 7, offset: 0 }}>
+                                    {note.title}
+                                </Col>
+                                <Col md={{ span: 2, offset: 0 }} className=''>
+                                    <ButtonGroup >
+                                        <Button size="sm" variant="outline-dark" className='noteContentCardsEditButton' >
+                                            <i className="fa-solid fa-pen"></i>
+                                        </Button>
+                                        <Button size="sm" variant="outline-dark"
+                                            onClick={() => handleDeleteNote(note.id)} className='noteContentCardsDeleteButton' >
+                                            <i className="fa-solid fa-trash-can"></i>
+                                        </Button>
+                                    </ButtonGroup>
+                                </Col>
+                            </Row>
+
+                        </Card.Header>
                         <Card.Body>
                             <Card.Text className='noteContentCardsText'>
                                 {note.content}
