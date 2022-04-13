@@ -145,7 +145,7 @@ export const notesSlice = createSlice({
                     state.items[index] = editedNote
                 }
             })
-        }
+        } 
     },
     extraReducers: {
         // get todos

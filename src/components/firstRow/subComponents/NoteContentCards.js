@@ -22,7 +22,13 @@ function NoteContentCards() {
     };
     const [values, setValues] = useState(initialValues);
     const [radioValue, setRadioValue] = useState('');
-    const [modalShow, setModalShow] = useState(false);
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => {
+        setShow(false)
+        setRadioValue(null);
+    }
+    const handleShow = () => setShow(true);
 
     console.log("editValues", values)
 
@@ -56,32 +62,97 @@ function NoteContentCards() {
     }
 
     // Modal For Note Edit
-    function MyVerticallyCenteredModal(props) {
-        return (
+
+    // save note
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        if (name === 'category') {
+            setRadioValue(e.target.value)
+        }
+        setValues({
+            ...values,
+            [name]: value,
+        });
+        console.log("handleInputChange")
+    };
+
+    const saveNote = () => {
+        dispatch(editNote(values))
+        console.log("saved")
+        setRadioValue(null);
+        setValues(initialValues)
+        handleClose()
+    }
+
+    return (
+        <>
+            <Row xs={1} md={5} className="g-2 mt-1 editModal">
+                {filteredNotes().map((note) => (
+                    <Col key={note.id} >
+                        <Card className={`noteContentCardsContainer  ${note.category}`}>
+                            <Card.Header className='noteContentCardsHeader'>
+                                <Row >
+                                    <Col md={{ span: 7, offset: 0 }}>
+                                        {note.title}
+                                    </Col>
+                                    <Col md={{ span: 2, offset: 0 }} className=''>
+                                        <ButtonGroup >
+                                            <Button size="sm" variant="outline-dark" className='noteContentCardsEditButton'
+                                                onClick={() => {
+                                                    setValues(
+                                                        note
+                                                    )
+                                                    setRadioValue(note.category)
+                                                    handleShow()
+                                                }} >
+                                                <i className="fa-solid fa-pen"></i>
+                                            </Button>
+                                            <Button size="sm" variant="outline-dark"
+                                                onClick={() => handleDeleteNote(note.id)} className='noteContentCardsDeleteButton' >
+                                                <i className="fa-solid fa-trash-can"></i>
+                                            </Button>
+                                        </ButtonGroup>
+                                    </Col>
+                                </Row>
+                            </Card.Header>
+                            <Card.Body>
+                                <Card.Text className='noteContentCardsText'>
+                                    {note.content}
+                                </Card.Text>
+                            </Card.Body>
+                            <Card.Footer>
+                                {/* // YYYYMMDDHHmmss moment("12-25-1995", "MM-DD-YYYY"); */}
+                                <small className="text-muted noteContentCardsFooter">
+                                    {moment(note.addedAt, "YYYYMMDDHHmmss")
+                                        .format('YYYY-MM-DD HH:mm:ss')
+                                    }</small>
+                            </Card.Footer>
+                        </Card>
+                    </Col>
+
+                ))}
+            </Row>
+            {/* // Modal */}
             <Modal
-                {...props}
-                size="md"
-                aria-labelledby="contained-modal-title-vcenter"
-                centered
+                show={show}
+                onHide={handleClose}
                 backdrop="static"
-            // keyboard={false}
+                keyboard={false}
             >
                 <Modal.Header closeButton>
-                    <Modal.Title id="contained-modal-title-vcenter">
-                        Edit Note
-                    </Modal.Title>
+                    <Modal.Title>Modal title</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
                         <Form.Group className="mb-3" >
                             <Form.Label>Title</Form.Label>
                             <Form.Control size="sm" type="text" placeholder="Enter Your Title Here..."
-                                name='title' onChange={handleInputChange} />
+                                name='title' onChange={handleInputChange} value={values.title} />
                         </Form.Group>
                         <Form.Group className="mb-3" >
                             <Form.Label>Content</Form.Label>
                             <Form.Control size="sm" as="textarea" rows={5} placeholder='Enter Your Note Here...'
-                                name='content' onChange={handleInputChange} />
+                                name='content' onChange={handleInputChange} value={values.content} />
                         </Form.Group>
                         <Form.Group className="mb-3 col-3">
                             <Form.Label htmlFor="exampleColorInput">Color picker</Form.Label>
@@ -108,7 +179,10 @@ function NoteContentCards() {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={props.onHide}>Close</Button>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                    <Button variant="primary">Understood</Button>
                     <Form>
                         <Form.Group>
                             <Button variant="secondary" id="button-addon1"
@@ -120,92 +194,7 @@ function NoteContentCards() {
                     </Form>
                 </Modal.Footer>
             </Modal>
-        );
-    }
-
-    // save note
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        if (name === 'category') {
-            setRadioValue(e.target.value)
-        }
-        setValues({
-            ...values,
-            [name]: value,
-        });
-        console.log("handleInputChange")
-    };
-
-    const saveNote = () => {
-        dispatch(editNote(values))
-        console.log("saved")
-        setRadioValue(null);
-        setValues(initialValues)
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    return (
-        <Row xs={1} md={5} className="g-2 mt-1 editModal">
-            {filteredNotes().map((note) => (
-                <Col key={note.id} >
-                    <Card className={`noteContentCardsContainer  ${note.category}`}>
-                        <Card.Header className='noteContentCardsHeader'>
-                            <Row >
-                                <Col md={{ span: 7, offset: 0 }}>
-                                    {note.title}
-                                </Col>
-                                <Col md={{ span: 2, offset: 0 }} className=''>
-                                    <ButtonGroup >
-                                        <Button size="sm" variant="outline-dark" className='noteContentCardsEditButton'
-                                            onClick={() => {
-                                                setValues({
-                                                    ...values,
-                                                    id: note.id
-                                                })
-                                                setModalShow(true)
-                                            }} >
-                                            <i className="fa-solid fa-pen"></i>
-                                        </Button>
-                                        <MyVerticallyCenteredModal
-                                            show={modalShow}
-                                            onHide={() => setModalShow(false)}
-                                        />
-                                        <Button size="sm" variant="outline-dark"
-                                            onClick={() => handleDeleteNote(note.id)} className='noteContentCardsDeleteButton' >
-                                            <i className="fa-solid fa-trash-can"></i>
-                                        </Button>
-                                    </ButtonGroup>
-                                </Col>
-                            </Row>
-                        </Card.Header>
-                        <Card.Body>
-                            <Card.Text className='noteContentCardsText'>
-                                {note.content}
-                            </Card.Text>
-                        </Card.Body>
-                        <Card.Footer>
-                            {/* // YYYYMMDDHHmmss moment("12-25-1995", "MM-DD-YYYY"); */}
-                            <small className="text-muted noteContentCardsFooter">
-                                {moment(note.addedAt, "YYYYMMDDHHmmss")
-                                    .format('YYYY-MM-DD HH:mm:ss')
-                                }</small>
-                        </Card.Footer>
-                    </Card>
-                </Col>
-            ))}
-        </Row>
+        </>
     )
 }
 
