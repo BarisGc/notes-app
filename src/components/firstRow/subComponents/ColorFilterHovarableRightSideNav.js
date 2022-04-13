@@ -17,10 +17,10 @@ function ColorFilterHovarableRightSideNav() {
 
     return (
         <div id="mySidenav" className="sidenav">
-            <a href="#" id="routine" onClick={handleColorFilter}>Routine</a>
-            <a href="#" id="projects" onClick={handleColorFilter}>Projects</a>
-            <a href="#" id="urgent" onClick={handleColorFilter}>Urgent</a>
-            <a href="#" id="ideas" onClick={handleColorFilter}>Ideas</a>
+            <button href="#" id="routine" onClick={handleColorFilter}>Routine</button>
+            <button href="#" id="projects" onClick={handleColorFilter}>Projects</button>
+            <button href="#" id="urgent" onClick={handleColorFilter}>Urgent</button>
+            <button href="#" id="ideas" onClick={handleColorFilter}>Ideas</button>
         </div>
     )
 }
