@@ -180,6 +180,15 @@ body {
 
 /* noteContentCards */
 
+.noteContentCardsContainer {
+  /* max-height: 20vh; */
+
+}
+
+/* .noteContentCardsContainer:hover {
+  max-height: none;
+} */
+
 .noteContentCardsContainer.routine {
   background-color: #F0F1F2;
 }
@@ -196,11 +205,24 @@ body {
   background-color: #FFE470
 }
 
+
 .noteContentCardsHeader {}
 
 .noteContentCardsTitle {}
 
-.noteContentCardsText {}
+.noteContentCardsText .hideCardBody {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.noteContentCardsText p:focus {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 
 .noteContentCardsFooter {}
 

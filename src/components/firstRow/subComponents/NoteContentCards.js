@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react'
 import { useSelector, useDispatch, } from 'react-redux';
 import moment from 'moment';
 import { Row, Col, Card, Modal, Button, ButtonGroup, Form, FormGroup, InputGroup, ToggleButton } from 'react-bootstrap'
-import { deleteNote, editNote } from '../../../redux/notesSlice'
-
+import { deleteNote, editNote, toggleNote } from '../../../redux/notesSlice'
 function NoteContentCards() {
     const dispatch = useDispatch();
     let currentTime = moment().format('YYYYMMDDHHmmss');
@@ -84,20 +83,25 @@ function NoteContentCards() {
         handleClose()
     }
 
+    const handleToggleNote = (id) => {
+        dispatch(toggleNote(id))
+    }
+
+    var module = document.querySelector(".noteContentCardsContainer p");
+
     return (
         <>
-            <Row xs={1} md={5} className="g-2 mt-1 editModal">
+            <Row xs={1} md={5} className="g-2 mt-1 " >
                 {filteredNotes().map((note) => (
                     <Col key={note.id} >
-                        <Card className={`noteContentCardsContainer  ${note.category}`}>
-                            <Card.Header className='noteContentCardsHeader'>
+                        <Card className={`noteContentCardsContainer  ${note.category} `}>
+                            <Card.Header className='noteContentCardsHeader'
+                            >
                                 <Row >
-                                    <Col md={{ span: 7, offset: 0 }}>
-                                        {note.title}
-                                    </Col>
-                                    <Col md={{ span: 2, offset: 0 }} className=''>
+                                    <Col md={{ span: 12, offset: 0 }} className='justify-content-between d-flex'>
+                                        <Button variant="outline-dark" onClick={() => handleToggleNote(note.id)}>{note.title}</Button>
                                         <ButtonGroup >
-                                            <Button size="sm" variant="outline-dark" className='noteContentCardsEditButton'
+                                            <Button size="sm" variant="outline-dark" className='noteContentCardsEditButton '
                                                 onClick={() => {
                                                     setValues(
                                                         note
@@ -115,8 +119,8 @@ function NoteContentCards() {
                                     </Col>
                                 </Row>
                             </Card.Header>
-                            <Card.Body>
-                                <Card.Text className='noteContentCardsText'>
+                            <Card.Body className='noteContentCardsText'>
+                                <Card.Text className={`${!note.isOpen ? 'hideCardBody' : ''}`} >
                                     {note.content}
                                 </Card.Text>
                             </Card.Body>

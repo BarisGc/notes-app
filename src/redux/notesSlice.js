@@ -145,6 +145,11 @@ export const notesSlice = createSlice({
                     state.items[index] = editedNote
                 }
             })
+        },
+        toggleNote: (state, action) => {
+            const id = action.payload;
+            const note = state.items.find((element) => element.id === id);
+            note.isOpen = !note.isOpen;
         }
     },
     extraReducers: {
@@ -201,5 +206,5 @@ export const notesSlice = createSlice({
 //     return state.todos.items.filter((todo) => state.todos.activeFilter === 'active' ? todo.completed === false : todo.completed === true)
 // }
 
-export const { addNewNote, selectFilterOption, deleteNote, editNote } = notesSlice.actions;
+export const { addNewNote, selectFilterOption, deleteNote, editNote, toggleNote } = notesSlice.actions;
 export default notesSlice.reducer;
