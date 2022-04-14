@@ -183,16 +183,12 @@ function NoteContentCards() {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
-                    <Button variant="primary">Understood</Button>
                     <Form>
                         <Form.Group>
                             <Button variant="secondary" id="button-addon1"
                                 onClick={() => saveNote()}
                             >
-                                Save Note
+                                Update Note
                             </Button>
                         </Form.Group>
                     </Form>

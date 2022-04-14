@@ -7,7 +7,7 @@ function App() {
   return (
     <Container fluid >
       <FirstRow />
-      <SecondRow />
+      {/* <SecondRow /> */}
     </Container>
   );
 }
