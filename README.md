@@ -13,7 +13,8 @@ Please, click > [Netlify](https://notes-app-barisd.netlify.app/)
 - To practice React-Bootstrap
 - To practice Moment.js 
 ### Notes:
-- The site is ready for integration testing but in the future, some styles may be updated, "loading" & "error" components will be prepared and the code may be revised to increase readability        
+- The site is ready for integration testing but in the future, some styles may be updated, "loading" & "error" components will be prepared and the code may be revised to increase readability
+- Footer component will be added, soon.        
 ### Frameworks/Libraries:
 - React, React-Redux, Redux-Toolkit, React-Bootstrap, Momentjs
 ### Storage:
