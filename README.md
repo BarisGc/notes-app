@@ -8,9 +8,8 @@ Please, click > [Netlify](https://notes-app-barisd.netlify.app/)
 - Filter operations like text-search & color-category search
 - Reactive layout and styles depended on various states like "is Note Open Or Not?"
 - Some css tricks like fixed positions & hover etc.
-- Practice various components which React-Bootstrap Has.
+- To practice various components which React-Bootstrap Has.
 - Hidden / Active components depended on various states
-- To practice React-Bootstrap
 - To practice Moment.js 
 ### Notes:
 - The site is ready for integration testing but in the future, some styles may be updated, "loading" & "error" components will be prepared and the code may be revised to increase readability
