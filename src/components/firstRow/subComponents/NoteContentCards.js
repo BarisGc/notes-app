@@ -174,12 +174,14 @@ function NoteContentCards() {
                 onHide={handleClose}
                 backdrop="static"
                 keyboard={false}
-
+                fullscreen={'md-down'}
             >
-                <Modal.Header closeButton className='bg-dark text-white'>
+                <Modal.Header closeButton className='bg-dark text-white'
+                    closeVariant={'white'}
+                >
                     <Modal.Title>Edit Note</Modal.Title>
                 </Modal.Header>
-                <Modal.Body className='bg-dark text-white'>
+                <Modal.Body className='bg-dark text-white  '>
                     <Form>
                         <Form.Group className="mb-3" >
                             <Form.Label>Title</Form.Label>
@@ -216,10 +218,10 @@ function NoteContentCards() {
                         <Form.Group className="mb-3 col-3">
                             <Form.Label htmlFor="exampleColorInput">Color Picker</Form.Label>
                             <InputGroup className="mb-3 ">
-                                <ButtonGroup className=''>
+                                <ButtonGroup >
                                     {radios.map((radio, idx) => (
                                         <ToggleButton
-                                            className={`me-2 px-4 offCanvasColorPicker${radio.value}`}
+                                            className={`me-2 px-2 px-md-4 offCanvasColorPicker${radio.value}`}
                                             key={idx}
                                             id={`radio-${idx}`}
                                             type="radio"
@@ -229,7 +231,8 @@ function NoteContentCards() {
                                             name="category"
                                             onChange={handleInputChange}
                                         >
-                                            {radioValue === radio.value ? <i className="fa-solid fa-check"></i> : <i>{radio.value}</i>}
+                                            {radioValue === radio.value ? <i className="fa-solid fa-check "></i> : <i >{radio.value}</i>}
+
                                         </ToggleButton>
                                     ))}
                                 </ButtonGroup>

@@ -1,6 +1,5 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { nanoid } from 'nanoid'
-import axios from "axios";
 
 const exampleDataArr = [
     {
@@ -357,29 +356,6 @@ const exampleDataArr = [
     },
 ]
 
-// Fetch Api Data
-
-
-// const getExampleData = () => {
-//     localStorage.setItem("noteKeys", JSON.stringify(exampleDataArr))
-//     return JSON.parse(localStorage.getItem('noteKeys'))
-// }
-
-// async function dataLoad() {
-//     try {
-//         const oldData = await getExampleData();
-//         return localStorage.getItem('noteKeys') ? JSON.parse(localStorage.getItem('noteKeys')) : oldData
-//     } catch (err) {
-//         console.log('Ohh no:', err.message);
-//     }
-// }
-
-// export const fetchProducts = createAsyncThunk('notes/getAllNotes', async () => {
-//     const res = await axios(dataLoad())
-//     return res.data
-// })
-
-
 const test = !localStorage.getItem('noteKeys') ? exampleDataArr : JSON.parse(localStorage.getItem('noteKeys'))
 export const notesSlice = createSlice({
     name: 'notes',
@@ -436,58 +412,8 @@ export const notesSlice = createSlice({
         }
     },
     extraReducers: {
-        // get todos
-        // [fetchProducts.pending]: (state, action) => {
-        //     state.isLoading = true;
-        // },
-        // [fetchProducts.fulfilled]: (state, action) => {
-        //     state.items = action.payload;
-        //     state.isLoading = false;
-        // },
-        // [fetchProducts.rejected]: (state, action) => {
-        //     state.isLoading = false;
-        //     state.error = action.error.message;
-        // },
-        // // add todo
-        // [addTodosAsync.pending]: (state, action) => {
-        //     state.addNewTodo.isLoading = true
-        // },
-        // [addTodosAsync.fulfilled]: (state, action) => {
-        //     state.items.push(action.payload)
-        //     state.addNewTodo.IsLoading = false
-        // },
-        // [addTodosAsync.rejected]: (state, action) => {
-        //     state.addNewTodo.IsLoading = false;
-        //     state.addNewTodo.Error = action.error.message;
-        // },
-        // // toggle todo
-        // [toggleTodosAsync.fulfilled]: (state, action) => {
-        //     const { id, completed } = action.payload
-        //     const index = state.items.findIndex(item => item.id === id);
-        //     state.items[index].completed = completed
-        // },
-        // remove todo
-        // [removeTodosAsync.fulfilled]: (state, action) => {
-        //     const id = action.payload;
-        //     const filtered = state.items.filter((item) => item.id !== id);
-        //     state.items = filtered;
-        // },
-        // veya alttaki kullanılabilir
-        // [removeTodosAsync.fulfilled]: (state, action) => {
-        //     const id = action.payload;
-        //     const index = state.items.findIndex((item) => item.id === id);
-        //     state.items.splice(index, 1)
-        // }
     }
 });
-
-// export const selectTodos = (state) => state.todos.items;
-// export const selectFilteredTodos = (state) => {
-//     if (state.todos.activeFilter === 'all') {
-//         return state.todos.items;
-//     }
-//     return state.todos.items.filter((todo) => state.todos.activeFilter === 'active' ? todo.completed === false : todo.completed === true)
-// }
 
 export const { addNewNote, selectFilterOption, deleteNote, editNote, toggleNote } = notesSlice.actions;
 export default notesSlice.reducer;

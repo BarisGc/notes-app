@@ -163,7 +163,7 @@ function TextFilterTopBar() {
                                 <ButtonGroup className=''>
                                     {radios.map((radio, idx) => (
                                         <ToggleButton
-                                            className={`me-2 px-4 offCanvasColorPicker${radio.value}`}
+                                            className={`me-2 px-2 px-md-4 offCanvasColorPicker${radio.value}`}
                                             key={idx}
                                             id={`radio-${idx}`}
                                             type="radio"
