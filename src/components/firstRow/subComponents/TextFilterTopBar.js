@@ -1,6 +1,6 @@
-import { useState, } from 'react'
+import { useState, useRef } from 'react'
 import { useSelector, useDispatch, } from 'react-redux';
-import { InputGroup, FormControl, Offcanvas, Button, Row, Col, Form, ButtonGroup, ToggleButton } from 'react-bootstrap'
+import { InputGroup, Overlay, Tooltip, FormControl, Offcanvas, Button, Row, Col, Form, ButtonGroup, ToggleButton } from 'react-bootstrap'
 import { nanoid } from 'nanoid'
 import moment from 'moment';
 import { addNewNote, selectFilterOption } from '../../../redux/notesSlice'
@@ -15,20 +15,20 @@ function TextFilterTopBar() {
 
     //State
     const initialValues = {
-        id: "",
-        title: "",
-        content: "",
-        category: "",
+        id: '',
+        title: '',
+        content: '',
+        category: 'routine',
         isOpen: true,
-        addedAt: "",
+        addedAt: '',
     };
     const [values, setValues] = useState(initialValues);
-    const [radioValue, setRadioValue] = useState('');
+    const [radioValue, setRadioValue] = useState('routine');
     // offCanvas
     const [show, setShow] = useState(false);
     const handleClose = () => {
         setShow(false);
-        setRadioValue(null);
+        setRadioValue('routine');
         setValues(initialValues)
     }
     const toggleShow = () => setShow((s) => !s);
@@ -42,7 +42,7 @@ function TextFilterTopBar() {
         { name: 'category', value: filterCategories[3] },
     ];
 
-    // save note
+    // Handle Inputs onChange
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         if (name === 'category') {
@@ -55,19 +55,43 @@ function TextFilterTopBar() {
 
     };
 
+    // Save Note
     const saveNote = () => {
-        handleClearFilters()
-        dispatch(addNewNote(
-            {
-                ...values,
-                id: nanoid(),
-                addedAt: currentTime
+        // Validation
+        console.log("values.title.length", values.title.length)
+        if ((values.title.length < 1 || values.title.length > 15) && values.content !== '') {
+            setIsTitleValidated(false)
+            setTimeout(() => {
+                setIsTitleValidated(true)
+            }, 2000);
+        } else if ((values.title.length > 0 && values.title.length < 16) && values.content === '') {
+            setContentValidated(false)
+            setTimeout(() => {
+                setContentValidated(true)
+            }, 2000);
+        } else if ((values.title.length < 1 || values.title.length > 15) && values.content === '') {
+            setIsTitleValidated(false)
+            setContentValidated(false)
+            setTimeout(() => {
+                setIsTitleValidated(true)
+                setContentValidated(true)
+            }, 2000);
+        }
+        // Save 
+        else {
+            setIsTitleValidated(true)
+            handleClearFilters()
+            dispatch(addNewNote(
+                {
+                    ...values,
+                    id: nanoid(),
+                    addedAt: currentTime
 
-            }))
-        setShow(false);
-        setRadioValue(null);
-        setValues(initialValues)
-
+                }))
+            setShow(false);
+            setRadioValue('routine');
+            setValues(initialValues)
+        }
     }
     console.log("values", values)
 
@@ -88,7 +112,11 @@ function TextFilterTopBar() {
             }))
     }
 
-
+    // Custom Validations
+    const targetTitle = useRef(null);
+    const targetContent = useRef(null);
+    const [isTitleValidated, setIsTitleValidated] = useState(null)
+    const [isContentValidated, setContentValidated] = useState(null)
     return (
         <Row className='my-3 TextFilterTopBar' >
             <Offcanvas className='h-75 TextFilterTopBarContainer bg-dark text-white ' show={show} onHide={handleClose} scroll={true} backdrop={true} placement={'top'}>
@@ -99,16 +127,38 @@ function TextFilterTopBar() {
                     <Form>
                         <Form.Group className="mb-3" >
                             <Form.Label>Title</Form.Label>
-                            <Form.Control size="sm" type="text" placeholder="Enter Your Title Here..."
+                            <Form.Control ref={targetTitle} size="sm" type="text" placeholder="Enter Your Title Here..."
                                 name='title' onChange={handleInputChange} />
+                            {isTitleValidated === false &&
+                                <Col  >
+                                    <Overlay target={targetTitle.current} show={true} placement="top">
+                                        {(props) => (
+                                            <Tooltip id="overlay-example" {...props}>
+                                                Title Can Not Be Empty {`&`} Longer Than 16 Characters
+                                            </Tooltip>
+                                        )}
+                                    </Overlay>
+                                </Col>
+                            }
                         </Form.Group>
                         <Form.Group className="mb-3" >
                             <Form.Label>Content</Form.Label>
-                            <Form.Control size="sm" as="textarea" rows={5} placeholder='Enter Your Note Here...'
+                            <Form.Control ref={targetContent} size="sm" as="textarea" rows={5} placeholder='Enter Your Note Here...'
                                 name='content' onChange={handleInputChange} />
+                            {isContentValidated === false &&
+                                <Col >
+                                    <Overlay target={targetContent.current} show={true} placement="bottom">
+                                        {(props) => (
+                                            <Tooltip id="overlay-example" {...props}>
+                                                Content Can Not Be Empty
+                                            </Tooltip>
+                                        )}
+                                    </Overlay>
+                                </Col>
+                            }
                         </Form.Group>
                         <Form.Group className="mb-3 col-3">
-                            <Form.Label htmlFor="exampleColorInput">Color picker</Form.Label>
+                            <Form.Label htmlFor="exampleColorInput">Color Picker</Form.Label>
                             <InputGroup className="mb-3 ">
                                 <ButtonGroup className=''>
                                     {radios.map((radio, idx) => (
@@ -143,7 +193,7 @@ function TextFilterTopBar() {
                 <InputGroup className=" ">
                     <InputGroup.Text className='searchIcon pb-2' id="basic-addon1"><i className="fa-solid fa-magnifying-glass"></i></InputGroup.Text>
                     <FormControl
-                        placeholder="Search Notes"
+                        placeholder=""
                         aria-label="SearchNotes"
                         aria-describedby="SearchNotesInput"
                         className='searchInput pb-2'
@@ -164,7 +214,7 @@ function TextFilterTopBar() {
                 </InputGroup>
             </Col>
 
-        </Row>
+        </Row >
     )
 }
 

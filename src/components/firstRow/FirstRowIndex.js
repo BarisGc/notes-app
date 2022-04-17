@@ -14,13 +14,13 @@ function FirstRowIndex() {
 
             <Col md={{ span: 12, offset: 0 }}>
                 <Row>
-                    <Col md={{ span: 1, offset: 0 }} className='ps-0 ms-0'>
+                    <Col md={{ span: 1, offset: 0 }} className='ps-0 ms-0 d-none d-md-block'>
                         <SocialMediaBar />
                     </Col>
                     <Col md={{ span: 10, offset: 0 }}>
                         <NoteContentCards />
                     </Col>
-                    <Col md={{ span: 1, offset: 0 }} className='pe-0 me-0'>
+                    <Col md={{ span: 1, offset: 0 }} className='pe-0 me-0 d-none d-md-block'>
                         <ColorFilterHovarableRightSideNav />
                     </Col>
                 </Row>

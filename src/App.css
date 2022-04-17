@@ -1,5 +1,10 @@
+/* General */
 body {
   background-color: #6C757D;
+}
+
+button:focus, button:active {
+  box-shadow: none !important;
 }
 
 /* TextFilterTopBar */
@@ -153,28 +158,28 @@ body {
 }
 
 #mySidenav button:hover {
-  right: -8.5vw;
+  right: -9vw;
   text-align: start;
   width: 10vw;
 }
 
 #routine {
-  top: 120px;
+  top: 1vw;
   background-color: #F0F1F2;
 }
 
 #projects {
-  top: 180px;
+  top: 5vw;
   background-color: #7AF7D4;
 }
 
 #urgent {
-  top: 240px;
+  top: 9vw;
   background-color: #FF9DE2;
 }
 
 #ideas {
-  top: 300px;
+  top: 13vw;
   background-color: #FFE470
 }
 

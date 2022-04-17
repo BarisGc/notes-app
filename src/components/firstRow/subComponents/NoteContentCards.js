@@ -1,26 +1,34 @@
-import { useState, useEffect } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useSelector, useDispatch, } from 'react-redux';
 import moment from 'moment';
-import { Row, Col, Card, Modal, Button, ButtonGroup, Form, FormGroup, InputGroup, ToggleButton } from 'react-bootstrap'
+import { Row, Col, Card, Modal, Button, ButtonGroup, Form, Overlay, Tooltip, InputGroup, ToggleButton } from 'react-bootstrap'
 import { deleteNote, editNote, toggleNote } from '../../../redux/notesSlice'
 function NoteContentCards() {
     const dispatch = useDispatch();
-    let currentTime = moment().format('YYYYMMDDHHmmss');
 
     //some states & selectors
     const notes = useSelector((state) => state.notes.items);
     const filterTypes = useSelector((state) => state.notes.filterTypes);
+    console.log("notes var mu", notes)
+
+    useEffect(() => {
+        if (notes.length === 0) {
+            localStorage.removeItem("noteKeys")
+        } else {
+            localStorage.setItem("noteKeys", JSON.stringify(notes))
+        }
+    }, [notes])
 
     const initialValues = {
         id: "",
         title: "",
         content: "",
-        category: "",
+        category: "routine",
         isOpen: true,
         addedAt: "",
     };
     const [values, setValues] = useState(initialValues);
-    const [radioValue, setRadioValue] = useState('');
+    const [radioValue, setRadioValue] = useState('routine');
     const [show, setShow] = useState(false);
 
     const handleClose = () => {
@@ -54,6 +62,7 @@ function NoteContentCards() {
         }
     }
 
+    console.log("filteredNotes", filteredNotes())
     // Delete Note
     const handleDeleteNote = (id) => {
         console.log("deleteidclick", id)
@@ -75,24 +84,48 @@ function NoteContentCards() {
         console.log("handleInputChange")
     };
 
-    const saveNote = () => {
-        dispatch(editNote(values))
-        console.log("saved")
-        setRadioValue(null);
-        setValues(initialValues)
-        handleClose()
+    const handleEditNote = () => {
+        // Validation
+        if ((values.title.length < 1 || values.title.length > 15) && values.content !== '') {
+            setIsTitleValidated(false)
+            setTimeout(() => {
+                setIsTitleValidated(true)
+            }, 2000);
+        } else if ((values.title.length > 0 && values.title.length < 16) && values.content === '') {
+            setContentValidated(false)
+            setTimeout(() => {
+                setContentValidated(true)
+            }, 2000);
+        } else if ((values.title.length < 1 || values.title.length > 15) && values.content === '') {
+            setIsTitleValidated(false)
+            setContentValidated(false)
+            setTimeout(() => {
+                setIsTitleValidated(true)
+                setContentValidated(true)
+            }, 2000);
+        } else {
+            dispatch(editNote(values))
+            console.log("saved")
+            setRadioValue(null);
+            setValues(initialValues)
+            handleClose()
+        }
     }
 
     const handleToggleNote = (id) => {
         dispatch(toggleNote(id))
     }
 
-    var module = document.querySelector(".noteContentCardsContainer p");
+    // Edit Form Validation
+    const target3Title = useRef(null);
+    const target4Content = useRef(null);
+    const [isTitleValidated, setIsTitleValidated] = useState(null)
+    const [isContentValidated, setContentValidated] = useState(null)
 
     return (
         <>
-            <Row xs={1} md={5} className="g-2 mt-1 " >
-                {filteredNotes().map((note) => (
+            <Row xs={1} md={4} className="g-2 mt-1 " >
+                {filteredNotes()[0] && filteredNotes().map((note) => (
                     <Col key={note.id} >
                         <Card className={`noteContentCardsContainer  ${note.category} `}>
                             <Card.Header className='noteContentCardsHeader'
@@ -133,7 +166,6 @@ function NoteContentCards() {
                             </Card.Footer>
                         </Card>
                     </Col>
-
                 ))}
             </Row>
             {/* // Modal */}
@@ -142,24 +174,47 @@ function NoteContentCards() {
                 onHide={handleClose}
                 backdrop="static"
                 keyboard={false}
+
             >
-                <Modal.Header closeButton>
-                    <Modal.Title>Modal title</Modal.Title>
+                <Modal.Header closeButton className='bg-dark text-white'>
+                    <Modal.Title>Edit Note</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body className='bg-dark text-white'>
                     <Form>
                         <Form.Group className="mb-3" >
                             <Form.Label>Title</Form.Label>
-                            <Form.Control size="sm" type="text" placeholder="Enter Your Title Here..."
+                            <Form.Control ref={target3Title} size="sm" type="text" placeholder="Enter Your Title Here..."
                                 name='title' onChange={handleInputChange} value={values.title} />
+                            {isTitleValidated === false &&
+                                <Col xs={5} >
+                                    <Overlay target={target3Title.current} show={true} placement="top">
+                                        {(props) => (
+                                            <Tooltip id="overlay-example" {...props}>
+                                                Title Can Not Be Empty {`&`} Longer Than 16 Characters
+                                            </Tooltip>
+                                        )}
+                                    </Overlay>
+                                </Col>
+                            }
                         </Form.Group>
                         <Form.Group className="mb-3" >
                             <Form.Label>Content</Form.Label>
-                            <Form.Control size="sm" as="textarea" rows={5} placeholder='Enter Your Note Here...'
+                            <Form.Control ref={target4Content} size="sm" as="textarea" rows={5} placeholder='Enter Your Note Here...'
                                 name='content' onChange={handleInputChange} value={values.content} />
+                            {isContentValidated === false &&
+                                <Col xs={5} >
+                                    <Overlay target={target4Content.current} show={true} placement="bottom">
+                                        {(props) => (
+                                            <Tooltip id="overlay-example" {...props}>
+                                                Content Can Not Be Empty
+                                            </Tooltip>
+                                        )}
+                                    </Overlay>
+                                </Col>
+                            }
                         </Form.Group>
                         <Form.Group className="mb-3 col-3">
-                            <Form.Label htmlFor="exampleColorInput">Color picker</Form.Label>
+                            <Form.Label htmlFor="exampleColorInput">Color Picker</Form.Label>
                             <InputGroup className="mb-3 ">
                                 <ButtonGroup className=''>
                                     {radios.map((radio, idx) => (
@@ -182,11 +237,11 @@ function NoteContentCards() {
                         </Form.Group>
                     </Form>
                 </Modal.Body>
-                <Modal.Footer>
+                <Modal.Footer className='bg-dark text-white'>
                     <Form>
                         <Form.Group>
                             <Button variant="secondary" id="button-addon1"
-                                onClick={() => saveNote()}
+                                onClick={() => handleEditNote()}
                             >
                                 Update Note
                             </Button>

@@ -1,107 +1,390 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { nanoid } from 'nanoid'
+import axios from "axios";
 
-// import { getTodosAsync, addTodosAsync, toggleTodosAsync, removeTodosAsync } from "./services";
+const exampleDataArr = [
+    {
+        id: nanoid(),
+        title: "white note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "routine",
+        isOpen: false,
+        addedAt: "20220401170401", // YYYYMMDDHHmmss
+    },
+    {
+        id: nanoid(),
+        title: "aqua note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "projects",
+        isOpen: false,
+        addedAt: "20220401170402",
+    },
+    {
+        id: nanoid(),
+        title: "pink note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "urgent",
+        isOpen: false,
+        addedAt: "20220401170403",
+    },
+    {
+        id: nanoid(),
+        title: "yellow note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "ideas",
+        isOpen: false,
+        addedAt: "20220401170404",
+    },
+    {
+        id: nanoid(),
+        title: "white note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "routine",
+        isOpen: false,
+        addedAt: "20220401170405",
+    },
+    {
+        id: nanoid(),
+        title: "aqua note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "projects",
+        isOpen: false,
+        addedAt: "20220401170406",
+    },
+    {
+        id: nanoid(),
+        title: "pink note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "urgent",
+        isOpen: false,
+        addedAt: "20220401170407",
+    },
+    {
+        id: nanoid(),
+        title: "yellow note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "ideas",
+        isOpen: false,
+        addedAt: "20220401170408",
+    },
+    {
+        id: nanoid(),
+        title: "yellow note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "ideas",
+        isOpen: false,
+        addedAt: "20220401170409",
+    },
+    {
+        id: nanoid(),
+        title: "yellow note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "ideas",
+        isOpen: false,
+        addedAt: "20220401170411",
+    },
+    {
+        id: nanoid(),
+        title: "yellow note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "ideas",
+        isOpen: false,
+        addedAt: "20220401170412",
+    },
+    {
+        id: nanoid(),
+        title: "white note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "routine",
+        isOpen: false,
+        addedAt: "20220401170401", // YYYYMMDDHHmmss
+    },
+    {
+        id: nanoid(),
+        title: "aqua note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "projects",
+        isOpen: false,
+        addedAt: "20220401170402",
+    },
+    {
+        id: nanoid(),
+        title: "pink note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "urgent",
+        isOpen: false,
+        addedAt: "20220401170403",
+    },
+    {
+        id: nanoid(),
+        title: "yellow note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "ideas",
+        isOpen: false,
+        addedAt: "20220401170404",
+    },
+    {
+        id: nanoid(),
+        title: "white note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "routine",
+        isOpen: false,
+        addedAt: "20220401170405",
+    },
+    {
+        id: nanoid(),
+        title: "aqua note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "projects",
+        isOpen: false,
+        addedAt: "20220401170406",
+    },
+    {
+        id: nanoid(),
+        title: "pink note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "urgent",
+        isOpen: false,
+        addedAt: "20220401170407",
+    },
+    {
+        id: nanoid(),
+        title: "yellow note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "ideas",
+        isOpen: false,
+        addedAt: "20220401170408",
+    },
+    {
+        id: nanoid(),
+        title: "yellow note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "ideas",
+        isOpen: false,
+        addedAt: "20220401170409",
+    },
+    {
+        id: nanoid(),
+        title: "yellow note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "ideas",
+        isOpen: false,
+        addedAt: "20220401170411",
+    },
+    {
+        id: nanoid(),
+        title: "yellow note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "ideas",
+        isOpen: false,
+        addedAt: "20220401170412",
+    },
+    {
+        id: nanoid(),
+        title: "white note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "routine",
+        isOpen: false,
+        addedAt: "20220401170401", // YYYYMMDDHHmmss
+    },
+    {
+        id: nanoid(),
+        title: "aqua note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "projects",
+        isOpen: false,
+        addedAt: "20220401170402",
+    },
+    {
+        id: nanoid(),
+        title: "pink note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "urgent",
+        isOpen: false,
+        addedAt: "20220401170403",
+    },
+    {
+        id: nanoid(),
+        title: "yellow note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "ideas",
+        isOpen: false,
+        addedAt: "20220401170404",
+    },
+    {
+        id: nanoid(),
+        title: "white note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "routine",
+        isOpen: false,
+        addedAt: "20220401170405",
+    },
+    {
+        id: nanoid(),
+        title: "aqua note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "projects",
+        isOpen: false,
+        addedAt: "20220401170406",
+    },
+    {
+        id: nanoid(),
+        title: "pink note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "urgent",
+        isOpen: false,
+        addedAt: "20220401170407",
+    },
+    {
+        id: nanoid(),
+        title: "yellow note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "ideas",
+        isOpen: false,
+        addedAt: "20220401170408",
+    },
+    {
+        id: nanoid(),
+        title: "yellow note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "ideas",
+        isOpen: false,
+        addedAt: "20220401170409",
+    },
+    {
+        id: nanoid(),
+        title: "yellow note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "ideas",
+        isOpen: false,
+        addedAt: "20220401170411",
+    },
+    {
+        id: nanoid(),
+        title: "yellow note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "ideas",
+        isOpen: false,
+        addedAt: "20220401170412",
+    },
+    {
+        id: nanoid(),
+        title: "white note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "routine",
+        isOpen: false,
+        addedAt: "20220401170401", // YYYYMMDDHHmmss
+    },
+    {
+        id: nanoid(),
+        title: "aqua note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "projects",
+        isOpen: false,
+        addedAt: "20220401170402",
+    },
+    {
+        id: nanoid(),
+        title: "pink note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "urgent",
+        isOpen: false,
+        addedAt: "20220401170403",
+    },
+    {
+        id: nanoid(),
+        title: "yellow note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "ideas",
+        isOpen: false,
+        addedAt: "20220401170404",
+    },
+    {
+        id: nanoid(),
+        title: "white note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "routine",
+        isOpen: false,
+        addedAt: "20220401170405",
+    },
+    {
+        id: nanoid(),
+        title: "aqua note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "projects",
+        isOpen: false,
+        addedAt: "20220401170406",
+    },
+    {
+        id: nanoid(),
+        title: "pink note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "urgent",
+        isOpen: false,
+        addedAt: "20220401170407",
+    },
+    {
+        id: nanoid(),
+        title: "yellow note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "ideas",
+        isOpen: false,
+        addedAt: "20220401170408",
+    },
+    {
+        id: nanoid(),
+        title: "yellow note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "ideas",
+        isOpen: false,
+        addedAt: "20220401170409",
+    },
+    {
+        id: nanoid(),
+        title: "yellow note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "ideas",
+        isOpen: false,
+        addedAt: "20220401170411",
+    },
+    {
+        id: nanoid(),
+        title: "yellow note",
+        content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        category: "ideas",
+        isOpen: false,
+        addedAt: "20220401170412",
+    },
+]
 
-// export const getTodosAsync = createAsyncThunk('todos/getTodosAsync', async () => {
-//     const res = await fetch('http://localhost:7000/todos');
-//     return await res.json()
+// Fetch Api Data
+
+
+// const getExampleData = () => {
+//     localStorage.setItem("noteKeys", JSON.stringify(exampleDataArr))
+//     return JSON.parse(localStorage.getItem('noteKeys'))
+// }
+
+// async function dataLoad() {
+//     try {
+//         const oldData = await getExampleData();
+//         return localStorage.getItem('noteKeys') ? JSON.parse(localStorage.getItem('noteKeys')) : oldData
+//     } catch (err) {
+//         console.log('Ohh no:', err.message);
+//     }
+// }
+
+// export const fetchProducts = createAsyncThunk('notes/getAllNotes', async () => {
+//     const res = await axios(dataLoad())
+//     return res.data
 // })
-//bunun yerine axios tercih ettik
 
+
+const test = !localStorage.getItem('noteKeys') ? exampleDataArr : JSON.parse(localStorage.getItem('noteKeys'))
 export const notesSlice = createSlice({
     name: 'notes',
     initialState: {
-        items: [
-            {
-                id: nanoid(),
-                title: "white note",
-                content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
-                category: "routine",
-                isOpen: false,
-                addedAt: "20220401170401", // YYYYMMDDHHmmss
-            },
-            {
-                id: nanoid(),
-                title: "aqua note",
-                content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
-                category: "projects",
-                isOpen: false,
-                addedAt: "20220401170402",
-            },
-            {
-                id: nanoid(),
-                title: "pink note",
-                content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
-                category: "urgent",
-                isOpen: false,
-                addedAt: "20220401170403",
-            },
-            {
-                id: nanoid(),
-                title: "yellow note",
-                content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
-                category: "ideas",
-                isOpen: false,
-                addedAt: "20220401170404",
-            },
-            {
-                id: nanoid(),
-                title: "white note",
-                content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
-                category: "routine",
-                isOpen: false,
-                addedAt: "20220401170405",
-            },
-            {
-                id: nanoid(),
-                title: "aqua note",
-                content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
-                category: "projects",
-                isOpen: false,
-                addedAt: "20220401170406",
-            },
-            {
-                id: nanoid(),
-                title: "pink note",
-                content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
-                category: "urgent",
-                isOpen: false,
-                addedAt: "20220401170407",
-            },
-            {
-                id: nanoid(),
-                title: "yellow note",
-                content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
-                category: "ideas",
-                isOpen: false,
-                addedAt: "20220401170408",
-            },
-            {
-                id: nanoid(),
-                title: "yellow note",
-                content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
-                category: "ideas",
-                isOpen: false,
-                addedAt: "20220401170409",
-            },
-            {
-                id: nanoid(),
-                title: "yellow note",
-                content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
-                category: "ideas",
-                isOpen: false,
-                addedAt: "20220401170411",
-            },
-            {
-                id: nanoid(),
-                title: "yellow note",
-                content: "This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
-                category: "ideas",
-                isOpen: false,
-                addedAt: "20220401170412",
-            },
-        ],
+        items: test,
         filterTypes: {
             searchText: '',
             colorFilter: '',
@@ -154,14 +437,14 @@ export const notesSlice = createSlice({
     },
     extraReducers: {
         // get todos
-        // [getTodosAsync.pending]: (state, action) => {
+        // [fetchProducts.pending]: (state, action) => {
         //     state.isLoading = true;
         // },
-        // [getTodosAsync.fulfilled]: (state, action) => {
+        // [fetchProducts.fulfilled]: (state, action) => {
         //     state.items = action.payload;
         //     state.isLoading = false;
         // },
-        // [getTodosAsync.rejected]: (state, action) => {
+        // [fetchProducts.rejected]: (state, action) => {
         //     state.isLoading = false;
         //     state.error = action.error.message;
         // },
