@@ -11,13 +11,13 @@ function NoteContentCards() {
     const filterTypes = useSelector((state) => state.notes.filterTypes);
     console.log("notes var mu", notes)
 
-    useEffect(() => {
-        if (notes.length === 0) {
-            localStorage.removeItem("noteKeys")
-        } else {
-            localStorage.setItem("noteKeys", JSON.stringify(notes))
-        }
-    }, [notes])
+    // useEffect(() => {
+    //     if (notes.length === 0) {
+    //         localStorage.removeItem("noteKeys")
+    //     } else {
+    //         localStorage.setItem("noteKeys", JSON.stringify(notes))
+    //     }
+    // }, [notes])
 
     const initialValues = {
         id: "",

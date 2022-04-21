@@ -12,6 +12,7 @@ function TextFilterTopBar() {
 
     // Selectors
     const filterTypes = useSelector((state) => state.notes.filterTypes);
+    const notes = useSelector((state) => state.notes.items);
 
     //State
     const initialValues = {
@@ -55,7 +56,7 @@ function TextFilterTopBar() {
 
     };
 
-    // Save Note
+    // Add Note
     const saveNote = () => {
         // Validation
         console.log("values.title.length", values.title.length)
@@ -81,19 +82,34 @@ function TextFilterTopBar() {
         else {
             setIsTitleValidated(true)
             handleClearFilters()
-            dispatch(addNewNote(
-                {
-                    ...values,
-                    id: nanoid(),
-                    addedAt: currentTime
+            // Sort Notes Order By addedAt(Newest First)
+            let unSortedNotes = [...notes]
+            unSortedNotes.push({
+                ...values,
+                id: nanoid(),
+                addedAt: currentTime
+            })
+            let noteAddedDates = [];
+            let sortedNotesArr = [];
 
+            for (let note of unSortedNotes) {
+                noteAddedDates.push(note.addedAt)
+            }
+            noteAddedDates.sort(function (a, b) { return b - a });
+            noteAddedDates.forEach((time) => {
+                sortedNotesArr.push(unSortedNotes.find((note) => {
+                    return (note.addedAt === time)
                 }))
+            })
+
+            dispatch(addNewNote(sortedNotesArr))
             setShow(false);
             setRadioValue('routine');
             setValues(initialValues)
         }
     }
-    console.log("values", values)
+
+
 
     // Text Search & Filter
     const handleTextSearch = (e) => {
