@@ -1,4 +1,5 @@
-# Project Name: *Notes-App*
+# CAUTION: I DETECTED A BUG WHICH OCCURS WHEN NEW NOTE IS ADDED, I WILL WORK ON IT !
+# Project Name: *Notes-App* 
 ### Project Deployment:
 Please, click > [Netlify](https://notes-app-barisd.netlify.app/)
 ### Project Main Goal: 
@@ -6,23 +7,20 @@ Please, click > [Netlify](https://notes-app-barisd.netlify.app/)
 ### Project Sub-Goals:
 - CRUD operations like Add & Delete & Edit
 - Filter operations like text-search & color-category search
+- Custom Form Input Validations ( "Formik" or "React Hook Form" will be Used in Next Projects with "Yup"
 - Reactive layout and styles depended on various states like "is Note Open Or Not?"
 - Some css tricks like fixed positions & hover etc.
 - To practice various components which React-Bootstrap Has.
 - Hidden / Active components depended on various states
 - To practice Moment.js 
-### Notes:
-- The site is ready for integration testing but in the future, some styles may be updated, "loading" & "error" components will be prepared and the code may be revised to increase readability
-- Footer component will be added, soon.
-- Some input validations will ve added, soon.        
 ### Frameworks/Libraries:
 - React, React-Redux, Redux-Toolkit, React-Bootstrap, Momentjs
 ### Storage:
-- LocalStorage function will be added.
+- LocalStorage
 ### Other Tools:
 - Postman, VS Code
 ### Mobile-Responsive:
-- Will be
+- Yes
 ### Git Log:
 - Current
 ### Chrome extensions:
