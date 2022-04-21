@@ -1,4 +1,3 @@
-# CAUTION: I DETECTED A BUG WHICH OCCURS WHEN NEW NOTE IS ADDED, I WILL WORK ON IT !
 # Project Name: *Notes-App* 
 ### Project Deployment:
 Please, click > [Netlify](https://notes-app-barisd.netlify.app/)
